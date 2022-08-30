@@ -1,0 +1,7 @@
+<div class="list-group">
+    {# {{arg1}} {{arg2}} news_tags.show_categories returns 2 args, don't use now #}
+    {% for item in categories %}
+    <a href="{{ item.get_absolute_url }}" class="list-group-item list-group-item-action active bg-info text-white">
+        {{ item.title }} <span class="badge bg-primary rounded-pill"> {{item.cnt}}</span> </a>
+    {% endfor %}
+</div>

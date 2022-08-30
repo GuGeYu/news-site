@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{title}} : {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+
+{% include 'inc/_sidebar.html' %}
+
+{% endblock %}
+
+{% block content %}
+
+{% for item in news %}
+<div class="card mb-3">
+    <div class="card-header bg-secondary text-white">
+        Категория: <a href="{{ item.category.get_absolute_url }}" class="text-white"> <u>{{item.category}}</u></a>
+    </div>
+    <div class="card-body">
+        <div class="media">
+            {% if item.photo %}
+            <img src="{{item.photo.url}}" alt="" width="350" class="mr-3">
+            {% elif item.category_id == 1 %}
+            <img src="https://picsum.photos/id/104/200/235.webp" alt="" class="mr-3">
+            {% elif item.category_id == 4 %}
+            <img src="https://picsum.photos/id/0/200/235.webp" alt="" class="mr-3">
+            {% else %}
+            <img src="https://picsum.photos/id/870/200/235.webp" alt="" class="mr-3">
+            {% endif %}
+            <div class="media-body">
+                <h5 class="card-title {% cycle " text-danger" "text-success" %}"> {{forloop.counter}})
+                {{item.title}}</h5>
+                <p class="card-text">{{item.content|safe|linebreaks|truncatewords:50}}</p>
+                <a href="{{item.get_absolute_url}}" class="btn btn-primary">Read more...</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        {{item.created_at|date:'Y-m-d H:i:s'}}
+    </div>
+{% empty %}
+    <h3>Sorry no news found</h3>
+</div>
+{% endfor %}
+{% endblock %}
